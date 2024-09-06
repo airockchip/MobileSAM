@@ -143,6 +143,12 @@ def run_export(
     with warnings.catch_warnings():
         warnings.filterwarnings("ignore", category=torch.jit.TracerWarning)
         warnings.filterwarnings("ignore", category=UserWarning)
+        torch.onnx.export(
+            sam.image_encoder,
+            torch.randn(1, 3, 448, 448),
+            'mobilesam_encoder.onnx',
+            opset_version=opset,
+            )
         with open(output, "wb") as f:
             print(f"Exporting onnx model to {output}...")
             torch.onnx.export(
